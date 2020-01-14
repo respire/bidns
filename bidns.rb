@@ -8,7 +8,7 @@ class BIDNSServer < Async::DNS::Server
   def initialize
     logger = Logger.new(File.expand_path('bidns.log', File.dirname(__FILE__)))
     logger.level = :info
-    STDERR.reopen 'bidns.stderr', 'w+'
+    STDERR.reopen File.expand_path('bidns.log', File.dirname(__FILE__)), 'w+'
     super([[:udp, '127.0.0.1', 53]], logger: logger)
 
     @default_dns_ttl = 120
