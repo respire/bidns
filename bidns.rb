@@ -110,7 +110,7 @@ class BIDNSServer < Async::DNS::Server
           guard_socket_error(task, endpoint) { Async::DNS::DatagramHandler.new(self, socket).run }
         when Socket::SOCK_STREAM
           @logger.info "<> Listening for connections on #{socket.local_address.inspect}"
-          Async::DNS::StreamHandler.new(self, socket).run
+          guard_socket_error(task, endpoint) { Async::DNS::StreamHandler.new(self, socket).run }
         else
           raise ArgumentError.new("Don't know how to handle #{address}")
         end
